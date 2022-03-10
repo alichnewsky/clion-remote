@@ -1,0 +1,171 @@
+ARG BASE=arm64v8/centos:7
+FROM ${BASE}
+
+
+RUN yum -y -q update \
+ && yum install -y -q centos-release-scl.noarch centos-release-scl-rh.noarch \
+ && yum -y -q update \
+ && INSTALL_PKGS="\
+    devtoolset-9-gcc devtoolset-9-gcc-c++ devtoolset-9-gcc-gfortran devtoolset-9-gdb \
+    make \
+    build-essential \
+    clang \
+    rsync \
+    tar \
+    python \
+    sudo \
+    autoconf \
+    automake \
+    locales-all \
+    dos2unix \
+    ninja-build" \
+ && yum install -y -q  --setopt=tsflags=nodocs ${INSTALL_PKGS} 
+
+RUN yum clean all
+
+ARG KEEP_DEPENDENCIES=false
+
+# install required build tools via packet manager
+RUN yum install -y -q  \
+    which libtool autoconf perl-devel python-devel xz-devel patch \
+    rh-git227 \
+    devtoolset-9-libasan-devel devtoolset-9-libtsan-devel devtoolset-9-liblsan-devel  devtoolset-9-libubsan-devel    
+
+# temporary working directory
+WORKDIR /tmp
+
+# [CMAKE]
+ARG CMAKE_VERSION=3.22.3
+RUN curl -sL https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-linux-aarch64.sh -o /tmp/cmake-install.sh \
+    && chmod u+rx /tmp/cmake-install.sh \
+    && /tmp/cmake-install.sh --skip-license --prefix=/usr \
+    && if [ "${KEEP_DEPENDENCIES}" = "false" ]; then rm -rf /tmp/cmake-install.sh ; fi
+
+
+ARG LIBRARIES_INSTALL_PATH=/usr/local
+# [OPENSSL]
+# this has TCC implications
+# consider instead RUN apt-get install openssl-libs openssl-dev
+ARG LIB_OPENSSL_VERSION=1.1.1m
+RUN curl -sL https://www.openssl.org/source/openssl-${LIB_OPENSSL_VERSION}.tar.gz -o ARG BASE=arm64v8/centos:7
+FROM ${BASE}
+
+
+RUN yum -y -q update \
+ && yum install -y -q centos-release-scl.noarch centos-release-scl-rh.noarch \
+ && yum -y -q update \
+ && INSTALL_PKGS="\
+    devtoolset-9-gcc devtoolset-9-gcc-c++ devtoolset-9-gcc-gfortran devtoolset-9-gdb \
+    make \
+    build-essential \
+    clang \
+    rsync \
+    tar \
+    python \
+    sudo \
+    autoconf \
+    automake \
+    locales-all \
+    dos2unix \
+    ninja-build" \
+ && yum install -y -q  --setopt=tsflags=nodocs ${INSTALL_PKGS} 
+
+RUN yum clean all
+
+ARG KEEP_DEPENDENCIES=false
+
+# install required build tools via packet manager
+RUN yum install -y -q  \
+    which libtool autoconf perl-devel python-devel xz-devel patch \
+    rh-git227 \
+    devtoolset-9-libasan-devel devtoolset-9-libtsan-devel devtoolset-9-liblsan-devel  devtoolset-9-libubsan-devel    
+
+# temporary working directory
+WORKDIR /tmp
+
+# [CMAKE]
+ARG CMAKE_VERSION=3.22.3
+RUN curl -sL https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-linux-aarch64.sh -o /tmp/cmake-install.sh \
+    && chmod u+rx /tmp/cmake-install.sh \
+    && /tmp/cmake-install.sh --skip-license --prefix=/usr \
+    && if [ "${KEEP_DEPENDENCIES}" = "false" ]; then rm -rf /tmp/cmake-install.sh ; fi
+
+
+ARG LIBRARIES_INSTALL_PATH=/usr/local
+# [OPENSSL]
+# this has TCC implications
+# consider instead RUN apt-get install openssl-libs openssl-dev
+ARG LIB_OPENSSL_VERSION=1.1.1m
+RUN curl -sL https://www.openssl.org/source/openssl-${LIB_OPENSSL_VERSION}.tar.gz -o ARG BASE=arm64v8/centos:7
+FROM ${BASE}
+
+
+RUN yum -y -q update \
+ && yum install -y -q centos-release-scl.noarch centos-release-scl-rh.noarch \
+ && yum -y -q update \
+ && INSTALL_PKGS="\
+    devtoolset-9-gcc devtoolset-9-gcc-c++ devtoolset-9-gcc-gfortran devtoolset-9-gdb \
+    make \
+    build-essential \
+    clang \
+    rsync \
+    tar \
+    python \
+    sudo \
+    autoconf \
+    automake \
+    locales-all \
+    dos2unix \
+    ninja-build" \
+ && yum install -y -q  --setopt=tsflags=nodocs ${INSTALL_PKGS} 
+
+RUN yum clean all
+
+ARG KEEP_DEPENDENCIES=false
+
+# install required build tools via packet manager
+RUN yum install -y -q  \
+    which libtool autoconf perl-devel python-devel xz-devel patch \
+    rh-git227 \
+    devtoolset-9-libasan-devel devtoolset-9-libtsan-devel devtoolset-9-liblsan-devel  devtoolset-9-libubsan-devel    
+
+# temporary working directory
+WORKDIR /tmp
+
+# [CMAKE]
+ARG CMAKE_VERSION=3.22.3
+RUN curl -sL https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-linux-aarch64.sh -o /tmp/cmake-install.sh \
+    && chmod u+rx /tmp/cmake-install.sh \
+    && /tmp/cmake-install.sh --skip-license --prefix=/usr \
+    && if [ "${KEEP_DEPENDENCIES}" = "false" ]; then rm -rf /tmp/cmake-install.sh ; fi
+
+
+ARG LIBRARIES_INSTALL_PATH=/usr/local
+# [OPENSSL]
+# this has TCC implications
+# consider instead RUN apt-get install openssl-libs openssl-dev
+ARG LIB_OPENSSL_VERSION=1.1.1m
+RUN curl -sL https://www.openssl.org/source/openssl-${LIB_OPENSSL_VERSION}.tar.gz -o openssl-${LIB_OPENSSL_VERSION}.tar.gz \
+    && tar -zxvf openssl-${LIB_OPENSSL_VERSION}.tar.gz \
+    && cd /tmp/openssl-${LIB_OPENSSL_VERSION} \
+    && ./config --prefix=${LIBRARIES_INSTALL_PATH} no-shared \
+    && make -j $(nproc) \
+    && make install_sw \
+    && cd .. \
+    &&  if [ "${KEEP_DEPENDENCIES}" = "false" ]; then \
+            rm -rf openssl-${LIB_OPENSSL_VERSION}.tar.gz \
+                   openssl-${LIB_OPENSSL_VERSION}; \
+            fi
+
+
+RUN (echo source /opt/rh/rh-git227/enable ; \
+     echo source /opt/rh/devtoolset-9/enable ; \
+     echo source /opt/rh/httpd24/enable \
+     )> /opt/rh/enable_all
+
+# Enable the SCL for all bash scripts.
+ENV BASH_ENV=/opt/rh/enable_all \
+    ENV=/opt/rh/enable_all \
+    LIBRARY_PATH=/opt/rh/httpd24/root/usr/lib64 \
+    LD_LIBRARY_PATH=/opt/rh/httpd24/root/usr/lib64:/opt/rh/devtoolset-9/root/usr/lib64:/opt/rh/devtoolset-9/root/usr/lib:/opt/rh/devtoolset-9/root/usr/lib64/dyninst:/opt/rh/devtoolset-9/root/usr/lib/dyninst:/opt/rh/devtoolset-9/root/usr/lib64:/opt/rh/devtoolset-9/root/usr/lib:/opt/rh/httpd24/root/usr/lib64 \
+    PROMPT_COMMAND=". /opt/rh/enable_all"
