@@ -17,6 +17,11 @@ FROM centos:7
 RUN yum -y update \
  && yum -y install openssh-server \
   make \
+  autoconf \
+  automake \
+  locales-all \
+  dos2unix \
+  ninja-build \
   build-essential \
   gcc \
   gcc-c++ \
