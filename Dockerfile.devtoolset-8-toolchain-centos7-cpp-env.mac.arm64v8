@@ -6,7 +6,7 @@ RUN yum -y -q update \
  && yum install -y -q centos-release-scl.noarch centos-release-scl-rh.noarch \
  && yum -y -q update \
  && INSTALL_PKGS="\
-    devtoolset-7-gcc devtoolset-7-gcc-c++ devtoolset-7-gcc-gfortran devtoolset-7-gdb \
+    devtoolset-8-gcc devtoolset-8-gcc-c++ devtoolset-8-gcc-gfortran devtoolset-8-gdb \
     make \
     build-essential \
     clang \
@@ -29,7 +29,7 @@ ARG KEEP_DEPENDENCIES=false
 RUN yum install -y -q  \
     file which libtool autoconf perl-devel python-devel xz-devel patch \
     rh-git227 \
-    devtoolset-7-libasan-devel devtoolset-7-libtsan-devel devtoolset-7-liblsan-devel  devtoolset-7-libubsan-devel    
+    devtoolset-8-libasan-devel devtoolset-8-libtsan-devel devtoolset-8-liblsan-devel  devtoolset-8-libubsan-devel    
 
 # temporary working directory
 WORKDIR /tmp
@@ -63,7 +63,7 @@ RUN yum install -y -q llvm-toolset-7.0 llvm-toolset-7.0-llvm-devel llvm-toolset-
 
 
 RUN (echo source /opt/rh/rh-git227/enable ; \
-     echo source /opt/rh/devtoolset-7/enable ; \
+     echo source /opt/rh/devtoolset-8/enable ; \
      echo source /opt/rh/llvm-toolset-7.0/enable; \
      echo source /opt/rh/httpd24/enable \
      )> /opt/rh/enable_all
@@ -74,5 +74,5 @@ ENV BASH_ENV=/opt/rh/enable_all \
     C_INCLUDE_PATH=/opt/rh/llvm-toolset-7.0/root/usr/include \
     CPLUS_INCLUDE_PATH=/opt/rh/llvm-toolset-7.0/root/usr/include \
     LIBRARY_PATH=/opt/rh/httpd24/root/usr/lib64:/opt/rh/llvm-toolset-7.0/root/usr/lib64  \
-    LD_LIBRARY_PATH=/opt/rh/httpd24/root/usr/lib64:/opt/rh/devtoolset-7/root/usr/lib64:/opt/rh/devtoolset-7/root/usr/lib:/opt/rh/devtoolset-7/root/usr/lib64/dyninst:/opt/rh/devtoolset-7/root/usr/lib/dyninst:/opt/rh/devtoolset-7/root/usr/lib64:/opt/rh/devtoolset-7/root/usr/lib:/opt/rh/httpd24/root/usr/lib64:/opt/rh/llvm-toolset-7.0/root/usr/lib64 \
+    LD_LIBRARY_PATH=/opt/rh/httpd24/root/usr/lib64:/opt/rh/devtoolset-8/root/usr/lib64:/opt/rh/devtoolset-8/root/usr/lib:/opt/rh/devtoolset-8/root/usr/lib64/dyninst:/opt/rh/devtoolset-8/root/usr/lib/dyninst:/opt/rh/devtoolset-8/root/usr/lib64:/opt/rh/devtoolset-8/root/usr/lib:/opt/rh/httpd24/root/usr/lib64:/opt/rh/llvm-toolset-7.0/root/usr/lib64 \
     PROMPT_COMMAND=". /opt/rh/enable_all"

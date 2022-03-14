@@ -157,15 +157,20 @@ RUN curl -sL https://www.openssl.org/source/openssl-${LIB_OPENSSL_VERSION}.tar.g
                    openssl-${LIB_OPENSSL_VERSION}; \
             fi
 
+# this has the bad taste of also intalling devtoolset-8 ...
+RUN yum install -y -q llvm-toolset-7.0 llvm-toolset-7.0-llvm-devel llvm-toolset-7.0-clang-devel llvm-toolset-7.0-clang-tools-extra.aarch64  llvm-toolset-7.0-llvm-static.aarch64 zlib-devel zlib-static zlib
 
 RUN (echo source /opt/rh/rh-git227/enable ; \
      echo source /opt/rh/devtoolset-9/enable ; \
+     echo source /opt/rh/llvm-toolset-7.0/enable; \
      echo source /opt/rh/httpd24/enable \
      )> /opt/rh/enable_all
 
 # Enable the SCL for all bash scripts.
 ENV BASH_ENV=/opt/rh/enable_all \
     ENV=/opt/rh/enable_all \
-    LIBRARY_PATH=/opt/rh/httpd24/root/usr/lib64 \
-    LD_LIBRARY_PATH=/opt/rh/httpd24/root/usr/lib64:/opt/rh/devtoolset-9/root/usr/lib64:/opt/rh/devtoolset-9/root/usr/lib:/opt/rh/devtoolset-9/root/usr/lib64/dyninst:/opt/rh/devtoolset-9/root/usr/lib/dyninst:/opt/rh/devtoolset-9/root/usr/lib64:/opt/rh/devtoolset-9/root/usr/lib:/opt/rh/httpd24/root/usr/lib64 \
+    C_INCLUDE_PATH=/opt/rh/llvm-toolset-7.0/root/usr/include \
+    CPLUS_INCLUDE_PATH=/opt/rh/llvm-toolset-7.0/root/usr/include \
+    LIBRARY_PATH=/opt/rh/httpd24/root/usr/lib64:/opt/rh/llvm-toolset-7.0/root/usr/lib64  \
+    LD_LIBRARY_PATH=/opt/rh/httpd24/root/usr/lib64:/opt/rh/devtoolset-9/root/usr/lib64:/opt/rh/devtoolset-9/root/usr/lib:/opt/rh/devtoolset-9/root/usr/lib64/dyninst:/opt/rh/devtoolset-9/root/usr/lib/dyninst:/opt/rh/devtoolset-9/root/usr/lib64:/opt/rh/devtoolset-9/root/usr/lib:/opt/rh/httpd24/root/usr/lib64:/opt/rh/llvm-toolset-7.0/root/usr/lib64 \
     PROMPT_COMMAND=". /opt/rh/enable_all"
