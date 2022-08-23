@@ -6,7 +6,7 @@ RUN yum -y -q update \
  && yum install -y -q centos-release-scl.noarch centos-release-scl-rh.noarch \
  && yum -y -q update \
  && INSTALL_PKGS="\
-    devtoolset-7-gcc devtoolset-7-gcc-c++ devtoolset-7-gcc-gfortran devtoolset-7-gdb \
+    devtoolset-10-gcc devtoolset-10-gcc-c++ devtoolset-10-gcc-gfortran devtoolset-10-gdb \
     make \
     build-essential \
     clang \
@@ -27,9 +27,9 @@ ARG KEEP_DEPENDENCIES=false
 
 # install required build tools via packet manager
 RUN yum install -y -q  \
-    file which libtool autoconf perl-devel python-devel xz-devel patch \
+    which libtool autoconf perl-devel python-devel xz-devel patch \
     rh-git227 \
-    devtoolset-7-libasan-devel devtoolset-7-libtsan-devel devtoolset-7-liblsan-devel  devtoolset-7-libubsan-devel    
+    devtoolset-10-libasan-devel devtoolset-10-libtsan-devel devtoolset-10-liblsan-devel  devtoolset-10-libubsan-devel    
 
 # temporary working directory
 WORKDIR /tmp
@@ -59,11 +59,10 @@ RUN curl -sL https://www.openssl.org/source/openssl-${LIB_OPENSSL_VERSION}.tar.g
             fi
 
 # this has the bad taste of also intalling devtoolset-8 ...
-RUN yum install -y -q llvm-toolset-7.0 llvm-toolset-7.0-llvm-devel llvm-toolset-7.0-clang-devel llvm-toolset-7.0-clang-tools-extra.aarch64 llvm-toolset-7.0-llvm-static.aarch64 zlib-devel zlib-static zlib
-
+RUN yum install -y -q llvm-toolset-7.0 llvm-toolset-7.0-llvm-devel llvm-toolset-7.0-clang-devel llvm-toolset-7.0-clang-tools-extra.aarch64  llvm-toolset-7.0-llvm-static.aarch64 zlib-devel zlib-static zlib
 
 RUN (echo source /opt/rh/rh-git227/enable ; \
-     echo source /opt/rh/devtoolset-7/enable ; \
+     echo source /opt/rh/devtoolset-10/enable ; \
      echo source /opt/rh/llvm-toolset-7.0/enable; \
      echo source /opt/rh/httpd24/enable \
      )> /opt/rh/enable_all
@@ -74,5 +73,5 @@ ENV BASH_ENV=/opt/rh/enable_all \
     C_INCLUDE_PATH=/opt/rh/llvm-toolset-7.0/root/usr/include \
     CPLUS_INCLUDE_PATH=/opt/rh/llvm-toolset-7.0/root/usr/include \
     LIBRARY_PATH=/opt/rh/httpd24/root/usr/lib64:/opt/rh/llvm-toolset-7.0/root/usr/lib64  \
-    LD_LIBRARY_PATH=/opt/rh/httpd24/root/usr/lib64:/opt/rh/devtoolset-7/root/usr/lib64:/opt/rh/devtoolset-7/root/usr/lib:/opt/rh/devtoolset-7/root/usr/lib64/dyninst:/opt/rh/devtoolset-7/root/usr/lib/dyninst:/opt/rh/devtoolset-7/root/usr/lib64:/opt/rh/devtoolset-7/root/usr/lib:/opt/rh/httpd24/root/usr/lib64:/opt/rh/llvm-toolset-7.0/root/usr/lib64 \
+    LD_LIBRARY_PATH=/opt/rh/httpd24/root/usr/lib64:/opt/rh/devtoolset-10/root/usr/lib64:/opt/rh/devtoolset-10/root/usr/lib:/opt/rh/devtoolset-10/root/usr/lib64/dyninst:/opt/rh/devtoolset-10/root/usr/lib/dyninst:/opt/rh/devtoolset-10/root/usr/lib64:/opt/rh/devtoolset-10/root/usr/lib:/opt/rh/httpd24/root/usr/lib64:/opt/rh/llvm-toolset-7.0/root/usr/lib64 \
     PROMPT_COMMAND=". /opt/rh/enable_all"

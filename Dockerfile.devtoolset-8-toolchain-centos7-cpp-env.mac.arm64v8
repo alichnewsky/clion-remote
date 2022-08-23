@@ -45,7 +45,7 @@ ARG LIBRARIES_INSTALL_PATH=/usr/local
 # [OPENSSL]
 # this has TCC implications
 # consider instead RUN apt-get install openssl-libs openssl-dev
-ARG LIB_OPENSSL_VERSION=1.1.1m
+ARG LIB_OPENSSL_VERSION=1.1.1q
 RUN curl -sL https://www.openssl.org/source/openssl-${LIB_OPENSSL_VERSION}.tar.gz -o openssl-${LIB_OPENSSL_VERSION}.tar.gz \
     && tar -zxvf openssl-${LIB_OPENSSL_VERSION}.tar.gz \
     && cd /tmp/openssl-${LIB_OPENSSL_VERSION} \
