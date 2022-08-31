@@ -1,0 +1,36 @@
+ARG BASE=arm64v8/centos:7
+FROM ${BASE}
+
+ARG BAZEL_RELEASE=4.2.1
+ARG TENSORFLOW_RELEASE_TAG=v2.8.2
+
+RUN yum install -y centos-release-scl
+# I suspect v2.8.0 -> v2.8.1 brings python 3.7 requirement
+# I know this worked when all of this was rh-python38, which can't seem to work anymore
+RUN yum install -y devtoolset-7 git rh-python38 make
+RUN scl enable rh-python38 devtoolset-7 'python3 -m pip install -U pip'
+RUN scl enable rh-python38 devtoolset-7 'python3 -m pip install -U numpy'
+#
+RUN yum install -y perl-Data-Dumper
+#
+# you cannot pick the bazel version independently from tensorflow version
+# 4.2.2 does not have an installer for linux arm, just a binary
+#RUN curl -sL https://github.com/bazelbuild/bazel/releases/download/${BAZEL_RELEASE}/bazel-${BAZEL_RELEASE}-installer-linux-arm64.sh -o bazel-${BAZEL_RELEASE}-installer-linux-arm64.sh
+#
+#RUN bash -x -e bazel-${BAZEL_RELEASE}-installer-linux-arm64.sh
+RUN curl -sL https://github.com/bazelbuild/bazel/releases/download/${BAZEL_RELEASE}/bazel-${BAZEL_RELEASE}-linux-arm64        -o bazel-${BAZEL_RELEASE}-linux-arm64
+RUN curl -sL https://github.com/bazelbuild/bazel/releases/download/${BAZEL_RELEASE}/bazel-${BAZEL_RELEASE}-linux-arm64.sha256 -o bazel-${BAZEL_RELEASE}-linux-arm64.sha256
+RUN sha256sum -c bazel-${BAZEL_RELEASE}-linux-arm64.sha256
+RUN mv bazel-${BAZEL_RELEASE}-linux-arm64 /usr/local/bin/bazel
+RUN chmod a+rx /usr/local/bin/bazel
+
+RUN bazel version
+
+#install modern git
+RUN yum install -y autoconf zlib-devel gettext xmlto asciidoc
+RUN git clone --depth 1 https://github.com/git/git && \
+    cd git && \
+    scl enable devtoolset-7  'make configure && ./configure --prefix=/usr/local && make -j 8 all && make -j 8 doc && make install install-doc install-html'
+RUN rm -rf git
+
+ADD tensorflow_builder_arm64.sh /
