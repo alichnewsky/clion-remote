@@ -69,7 +69,7 @@ scl enable rh-python38 devtoolset-7 \
 
 pwd
 scl enable rh-python38 devtoolset-7 \
-    'bazel --output_user_root /ssd/bazel_output_user_root build -c opt //tensorflow:libtensorflow_cc.so --config=mkl --config="opt" --config="monolithic" --copt="-mavx2" --spawn_strategy=standalone --genrule_strategy=standalone --verbose_failures'
+    'bazel --output_user_root /ssd/bazel_output_user_root build -c opt //tensorflow:libtensorflow_cc.so --config=mkl --config="opt" --config="monolithic" --copt="-march=native" --spawn_strategy=standalone --genrule_strategy=standalone --verbose_failures'
 
 pwd
 
