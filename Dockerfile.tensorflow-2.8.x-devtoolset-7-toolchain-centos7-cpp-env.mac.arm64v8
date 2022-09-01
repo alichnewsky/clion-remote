@@ -27,10 +27,10 @@ RUN chmod a+rx /usr/local/bin/bazel
 RUN bazel version
 
 #install modern git
-RUN yum install -y autoconf zlib-devel gettext xmlto asciidoc
+RUN yum install -y autoconf zlib-devel gettext xmlto asciidoc expat-devel expat-static libcurl-devel openssl-devel man
 RUN git clone --depth 1 https://github.com/git/git && \
     cd git && \
-    scl enable devtoolset-7  'make configure && ./configure --prefix=/usr/local && make -j 8 all && make -j 8 doc && make install install-doc install-html'
+    scl enable devtoolset-7  'make configure && ./configure --prefix=/usr/local --without-iconv --with-openssl --with-curl  && make -j 8 all && make -j 8 doc && make install install-doc install-html'
 RUN rm -rf git
 
 ADD tensorflow_builder_arm64.sh /
