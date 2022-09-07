@@ -76,3 +76,6 @@ ENV BASH_ENV=/opt/rh/enable_all \
     LIBRARY_PATH=/opt/rh/httpd24/root/usr/lib64:/opt/rh/llvm-toolset-7.0/root/usr/lib64  \
     LD_LIBRARY_PATH=/opt/rh/httpd24/root/usr/lib64:/opt/rh/devtoolset-8/root/usr/lib64:/opt/rh/devtoolset-8/root/usr/lib:/opt/rh/devtoolset-8/root/usr/lib64/dyninst:/opt/rh/devtoolset-8/root/usr/lib/dyninst:/opt/rh/devtoolset-8/root/usr/lib64:/opt/rh/devtoolset-8/root/usr/lib:/opt/rh/httpd24/root/usr/lib64:/opt/rh/llvm-toolset-7.0/root/usr/lib64 \
     PROMPT_COMMAND=". /opt/rh/enable_all"
+
+# for CLion until I ugrade
+RUN ln -s /opt/rh/rh-git227/root/usr/bin/git /usr/local/bin/git
